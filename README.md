@@ -1,13 +1,18 @@
-The goal of this application is to analyze the sentiment of lyrics across various musical genres. 
-The Genius API does not allow selection of random songs by genre, nor is there a genre attribute in the retrieved object.
+Overview:
+The goal of this application is to analyze the sentiment of musical lyrics across various musical genres, locations, and times. 
 
-Available attributes: 
-Genius can only be used for lyrics, basically. Tried artist and song objects, and only release date, atrist, lyrics.
-We should get attributes such as country, genre, etc from another source and add to our db.
+Goals:
+Plot popularity of genres by country over time.
+Plot sentiment of genres by country over time.
+Compare audience reviews with sentiment.
+Cluster genres by sentiment.
+Cluster countries by sentiment.
+Compare different sentiment analysis lexicons and algorithms.
 
+Current Questions:
+How to visualize data?
+Are there more trends do we want to analyze?
+How to get a representative sample?
 
-Questions for group:
-What trends do we want to analyze?
-Sentiment of single over time? Sentiment of all genres over time? Cluster artists (all genres) by sentiment? Judge artists by user comment/rating sentiment? Cluster sentiment by country?
-How do we get a representative population of a genre?
-How should we combine multiple lexicons?
+Obstacles:
+The Genius API does not allow selection of random songs by genre, nor is there a genre attribute in the retrieved object. Therefore, artist, title, country, genre, and date will be retrieved from MetaCritic, while Genius will supply the lyrics. Finally, the lyrics are analyzed with AFINN lexicon (and possibly other methods).
