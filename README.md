@@ -32,6 +32,7 @@ Cluster genres by sentiment.
 Cluster countries by sentiment.
 Compare different sentiment analysis lexicons and algorithms.
 Plot popularity of genres by country over time.
+Calculate how representative our sample is, and what would be needed for a representative sample. I.e. more indexes besides top 100. May involve scaling the algorithm to be applied to smaller populations instead, or using spotify user data to find what people are really listening to.
 
 Current Questions:
 How to visualize data?
@@ -48,3 +49,9 @@ Obstacles:
 - Limitations of lexicons (excluded vernacular)
 
 
+notes:
+Spotify indexes lack randomness required for representativeness.
+Popular songs overlap across countries and many are American songs, possibly due to Spotify 
+being US company. Music is also pretty globalized.
+Malta is all Christmas songs
+Freedom of speech / censorship may influence popular music lyrics.
