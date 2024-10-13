@@ -71,25 +71,25 @@ def drop_tables():
     )
 
 def create_tables():
-    #indicator_set
-    cursor.execute(
-        '''
-        CREATE TABLE IF NOT EXISTS indicator_set (
-            indicator_setID INTEGER PRIMARY KEY AUTOINCREMENT,
-            happiness_index DECIMAL
-        );
-        '''
-    )
+
     #sample
     cursor.execute(
         '''
         CREATE TABLE IF NOT EXISTS sample (
             sampleID INTEGER PRIMARY KEY AUTOINCREMENT,
-            country TEXT,
-            year INTEGER,
-            indicator_setID INTEGER,
-            UNIQUE(sampleID, country, year),
-            FOREIGN KEY (indicator_setID) REFERENCES indicator_set (indicator_setID)
+            country TEXT NOT NULL,
+            UNIQUE(sampleID, country)
+        );
+        '''
+    )
+    #indicator_set
+    cursor.execute(
+        '''
+        CREATE TABLE IF NOT EXISTS indicator_set (
+            sampleID INTEGER UNIQUE,
+            happiness_index REAL,
+            life_satisfaction REAL,
+            FOREIGN KEY (sampleID) REFERENCES sample (sampleID) ON UPDATE CASCADE ON DELETE CASCADE
         );
         '''
     )
@@ -113,8 +113,8 @@ def create_tables():
         CREATE TABLE IF NOT EXISTS sample_song (
             sampleID INTEGER, 
             songID INTEGER, 
-            FOREIGN KEY (sampleID) REFERENCES sample (sampleID),
-            FOREIGN KEY (songID) REFERENCES song (songID),
+            FOREIGN KEY (sampleID) REFERENCES sample (sampleID) ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (songID) REFERENCES song (songID) ON UPDATE CASCADE ON DELETE CASCADE,
             PRIMARY KEY(sampleID, songID)
         );
         '''
@@ -122,20 +122,6 @@ def create_tables():
     conn.commit()
 
 
-
-
-
-#Retrieves entire entry by title
-def retrieveSongByTitle(title):
-    cursor.execute(
-        '''
-            SELECT * 
-            FROM songs
-            WHERE title = ?
-        ''', (title,)
-    )
-    conn.commit()
-    return cursor.fetchone()
 
 #Translates lyrics string into English
 def translateLyrics(lyrics):
@@ -147,7 +133,7 @@ def translateLyrics(lyrics):
     return englishLyrics
 
 #Adds entire entry to db
-def addSong(title, artist, country, year):
+def addSong(title, artist, country):
     #check song exists in 'song'
     cursor.execute(
         '''
@@ -193,16 +179,16 @@ def addSong(title, artist, country, year):
     cursor.execute(
         '''
         SELECT sampleID FROM sample
-        WHERE country = ? AND year = ?
-        ''', (country, year)
+        WHERE country = ?
+        ''', (country,)
     )
     sampleID = cursor.fetchone()
     if sampleID is None:
         cursor.execute(
             '''
-            INSERT INTO sample (country, year)
+            INSERT INTO sample (country)
             VALUES (?, ?)
-            ''', (country, year)
+            ''', (country)
         )
         sampleID = cursor.lastrowid
     else:
@@ -217,21 +203,52 @@ def addSong(title, artist, country, year):
     conn.commit()
 
 
-def addIndicator(country, year, indicator, value):
-    cursor.execute(
-        f'''
-        INSERT INTO indicator_set ({indicator}) VALUES (?);
-        ''', (value,)
-    )
-    indicator_setID = cursor.lastrowid
+def addIndicator(country, indicator, value):
     cursor.execute(
         '''
-        INSERT INTO sample (country, year, indicator_setID)
-        VALUES (?, ?, ?);
-        ''', (country, year, indicator_setID)
+        SELECT sampleID from sample
+        WHERE country = ?
+        ''', (country,)
     )
+    sampleID = cursor.fetchone()
+    if sampleID is None:
+        cursor.execute(
+            '''
+            INSERT INTO sample (country)
+            VALUES (?)
+            ''', (country,)
+        )
+        sampleID = cursor.lastrowid
+    else:
+        sampleID = sampleID[0]
+    print(sampleID)
+    cursor.execute(
+        f'''
+        SELECT sampleID
+        FROM indicator_set
+        WHERE sampleID = ?;
+        ''', (sampleID,)
+    )
+    existingSample = cursor.fetchall()
+    if existingSample is None or not len(existingSample):
+        cursor.execute(
+            f'''
+            INSERT INTO indicator_set (sampleID, {indicator}) VALUES (?, ?);
+            ''', (sampleID, value)
+        )
+        print("Inserting: ", indicator, value, sampleID)
+        print(cursor.rowcount)
+    else:
+        cursor.execute(
+            f'''
+            UPDATE indicator_set
+            SET {indicator} = ?
+            WHERE sampleID = ?;
+            ''', (value, sampleID)
+        )
+        print(indicator, value, sampleID)
+        print(cursor.rowcount)
     conn.commit()
-
 def getSpotifySongs():
     #Build samples
     #For each country, get the top 50 songs
@@ -250,7 +267,23 @@ def getSpotifySongs():
         "Burkina Faso": "5vS9YRoXoMTNvmoI0OXqo3",
         "Ghana": "4t5QcqXgA5gmtomjxt774E",
         "Ethiopia": "7dM4QqLCVFDWKNHlOtI1fB",
-        "Sierra Leone": "7DfKFjIairBxWXQJGbkYVe"
+        "Sierra Leone": "7DfKFjIairBxWXQJGbkYVe",
+
+        "Israel": "37i9dQZEVXbJ6IpvItkve3",
+        "Canada": "37i9dQZEVXbKj23U1GF4IR",
+        "United States": "37i9dQZEVXbLRQDuF5jeBp",
+        "Mexico": "37i9dQZEVXbO3qyFxbkOE1",
+        "Poland": "37i9dQZEVXbN6itCcaL3Tt",
+        "Slovakia": "37i9dQZEVXbKIVTPX9a2Sb",
+        "Portugal": "37i9dQZEVXbKyJS56d1pgi",
+        "Bosnia and Herzegovina": "7fFD8oaaun0RYN9kebQ5sF",
+        "Kyrgyzstan": "7r1eHVwCqHvKUSGQb15BjX",
+        "Algeria": "4eSH1o9RQqnbN8ZX7CIVUI",
+        "Gabon": "3jDALIM1pSL9yfj8yKDWzR",
+        "Ukraine": "37i9dQZEVXbKkidEfWYRuD",
+        "Tunisia": "1rfwanToJd9SOVoT1WAJNY",
+        "India": "37i9dQZEVXbLZ52XmnySJg",
+        "Eswatini": "1Lrz87gcrKq8CigqG0Exy8",
     }
 
     songs = {}

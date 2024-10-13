@@ -50,8 +50,22 @@ Obstacles:
 
 
 notes:
+Just Analyzing 2024 (A sample is the top m Spotify songs for a country in 2024). The data is extensive when accounting for each indicator, and increasing dimensionality for time would
+be too large an undertaking and not as useful as analyzing a broad range of countries and indicators.
 Spotify indexes lack randomness required for representativeness.
 Popular songs overlap across countries and many are American songs, possibly due to Spotify 
 being US company. Music is also pretty globalized.
 Malta is all Christmas songs
 Freedom of speech / censorship may influence popular music lyrics.
+Music from Jordan only dates 2019 and earlier on Spotify.
+OECD does not contain as many countries as WHR and Spotify.
+
+visualization: had to standardize indicators.
+outliers may be of interest:
+Finland highest happiness, but relatively low LS.
+Eswatini lowest happiness, but relatively high LS.
+Mozambique extremely low LS.
+Singapore extremely high LS.
+
+WHO and UNODC had very low quality datasets: unlabelled attributes, missing data values, outdated.
+gini index (World Bank) not a good EHI.
