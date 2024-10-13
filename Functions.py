@@ -89,6 +89,8 @@ def create_tables():
             sampleID INTEGER UNIQUE,
             happiness_index REAL,
             life_satisfaction REAL,
+            unemployment_rate REAL,
+            suicide_mortality_rate REAL,
             FOREIGN KEY (sampleID) REFERENCES sample (sampleID) ON UPDATE CASCADE ON DELETE CASCADE
         );
         '''

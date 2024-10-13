@@ -67,5 +67,31 @@ Eswatini lowest happiness, but relatively high LS.
 Mozambique extremely low LS.
 Singapore extremely high LS.
 
-WHO and UNODC had very low quality datasets: unlabelled attributes, missing data values, outdated.
+UNODC had very low quality datasets: unlabelled attributes, missing data values, outdated.
 gini index (World Bank) not a good EHI.
+Eurostat only contains data for European countries.
+Gallup World Poll requires license subscription.
+CDC only available until 2011.
+
+indicators:
+WHO:
+alcohol consumption
+
+OECD: 2019
+https://data-explorer.oecd.org/vis?pg=0&fs[0]=Topic%2C0%7CSociety%23SOC%23&fc=Topic&bp=true&snb=30&vw=tb&df[ds]=dsDisseminateFinalDMZ&df[id]=DSD_HSL%40DF_HSL_CWB&df[ag]=OECD.WISE.WDP&df[vs]=1.0&dq=..._T._T._T.&pd=2019%2C2019&to[TIME_PERIOD]=false&ly[cl]=DOMAIN%2CCOMBINED_MEASURE%2CCOMBINED_UNIT_MEASURE&ly[rw]=REF_AREA
+happiness index
+life satisfaction
+educational attainment
+death_suicide_substance
+self-reported depression
+Perceived health as positive
+Employment rate
+Social support
+Life expectancy at birth
+housing affordability
+Households and NPISHs net adjusted disposable income per capita
+Homicides
+
+World Bank:
+unemployment rate (2020)
+suicide mortality rate (2019)
