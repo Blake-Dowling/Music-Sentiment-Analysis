@@ -48,28 +48,6 @@ translator = Translator()
 
 
 
-def drop_tables():
-    cursor.execute(
-        '''
-        DROP TABLE IF EXISTS sample;
-        '''
-    )
-    cursor.execute(
-        '''
-        DROP TABLE IF EXISTS song;
-        '''
-    )
-    cursor.execute(
-        '''
-        DROP TABLE IF EXISTS sample_song;
-        '''
-    )
-    cursor.execute(
-        '''
-        DROP TABLE IF EXISTS indicator_set;
-        '''
-    )
-
 def create_tables():
 
     #sample
