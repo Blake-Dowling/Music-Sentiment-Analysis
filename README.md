@@ -61,6 +61,8 @@ Music from Jordan only dates 2019 and earlier on Spotify.
 OECD does not contain as many countries as WHR and Spotify.
 
 visualization: had to standardize indicators.
+Regression plot slopes equal correlation.
+
 outliers may be of interest:
 Finland highest happiness, but relatively low LS.
 Eswatini lowest happiness, but relatively high LS.
@@ -95,3 +97,6 @@ Homicides
 World Bank:
 unemployment rate (2020)
 suicide mortality rate (2019)
+
+analysis:
+spearman correlation was used in order to capture non-linear relationships. Both spearman and pearson were used, but spearman produced stronger correlations.
